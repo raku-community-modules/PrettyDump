@@ -1,0 +1,63 @@
+use Test;
+use PrettyDump;
+
+plan 5;
+
+my $p = PrettyDump.new;
+
+subtest 'Inclusive range' => {
+    my $range = 130..137;
+    ok $range ~~ Range, 'Data structure is a Range';
+
+    my $string = $p.dump: $range;
+    isa-ok $string, Str, 'Got Str back';
+    my $expected = Q/130..137/;
+
+    is $string, $expected, 'Dumping $range returns expected string';
+}
+
+subtest 'Exclusive min range' => {
+    my $range = 130^..137;
+    ok $range ~~ Range, 'Data structure is a Range';
+
+    my $string = $p.dump: $range;
+    isa-ok $string, Str, 'Got Str back';
+    my $expected = Q/130^..137/;
+
+    is $string, $expected, 'Dumping $range returns expected string';
+}
+
+subtest 'Exclusive max range' => {
+    my $range = 130..^137;
+    ok $range ~~ Range, 'Data structure is a Range';
+
+    my $string = $p.dump: $range;
+    isa-ok $string, Str, 'Got Str back';
+    my $expected = Q/130..^137/;
+
+    is $string, $expected, 'Dumping $range returns expected string';
+}
+
+subtest 'Exclusive min-max range' => {
+    my $range = 130^..^137;
+    ok $range ~~ Range, 'Data structure is a Range';
+
+    my $string = $p.dump: $range;
+    isa-ok $string, Str, 'Got Str back';
+    my $expected = Q/130^..^137/;
+
+    is $string, $expected, 'Dumping $range returns expected string';
+}
+
+subtest 'Exclusive min-max range' => {
+    my $range = 0..*;
+    ok $range ~~ Range, 'Data structure is a Range';
+
+    my $string = $p.dump: $range;
+    isa-ok $string, Str, 'Got Str back';
+    my $expected = Q/0..*/;
+
+    is $string, $expected, 'Dumping $range returns expected string';
+}
+
+# vim: expandtab shiftwidth=4

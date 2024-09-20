@@ -1,0 +1,42 @@
+use Test;
+use PrettyDump;
+
+plan 6;
+
+can-ok PrettyDump, 'new' or bail-out "PrettyDump cannot .new";
+
+my $p = PrettyDump.new;
+can-ok $p, 'dump'  or bail-out "{$p.^name} cannot .dump";
+can-ok $p, 'Array' or bail-out "{$p.^name} cannot .Array";
+
+subtest '@array' => {
+    my @array = <a b c d>;
+    ok @array ~~ Array, 'Data structure is an array';
+
+    my $string = $p.dump: @array;
+    isa-ok $string, Str, 'Got Str back';
+
+    my $expected = qq/Array=[\n\t"a",\n\t"b",\n\t"c",\n\t"d"\n]/;
+    is $string, $expected, 'Dumping @array works';
+}
+
+subtest '$array' => {
+    my $array = [<a b c d>];
+    ok $array ~~ Array, 'Data structure is an array';
+
+    my $string = $p.dump: $array;
+    isa-ok $string, Str, 'Got Str back';
+
+    my $expected = qq/Array=[\n\t"a",\n\t"b",\n\t"c",\n\t"d"\n]/;
+    is $string, $expected, 'Dumping $array works';
+}
+
+subtest '[]' => {
+    my $string = $p.dump: [<a b c d>];
+    isa-ok $string, Str, 'Got Str back';
+
+    my $expected = qq/Array=[\n\t"a",\n\t"b",\n\t"c",\n\t"d"\n]/;
+    is $string, $expected, 'Dumping [] array works';
+}
+
+# vim: expandtab shiftwidth=4

@@ -1,0 +1,36 @@
+use Test;
+use PrettyDump;
+
+plan 3;
+
+my $p = PrettyDump.new;
+
+subtest '%hash' => {
+	my %hash = <a b c d>;
+	ok %hash ~~ Hash, 'Data structure is a Hash';
+
+	my $string = $p.dump: %hash;
+	isa-ok $string, Str, 'Got Str back';
+	my $expected = qq:!c/Hash={\n\t:a("b"),\n\t:c("d")\n}/;
+	is $string, $expected, 'Dumping %hash returns expected string';
+}
+
+subtest '$hash' => {
+	my $hash = %(<a b c d>);
+	ok $hash ~~ Hash, 'Data structure is a Hash';
+
+	my $string = $p.dump: $hash;
+	isa-ok $string, Str, 'Got Str back';
+	my $expected = qq:!c/Hash={\n\t:a("b"),\n\t:c("d")\n}/;
+	is $string, $expected, 'Dumping $hash returns expected string';
+}
+
+subtest '{}' => {
+	my $string = $p.dump: %(<a b c d>);
+	isa-ok $string, Str, 'Got Str back';
+	my $expected = qq:!c/Hash={\n\t:a("b"),\n\t:c("d")\n}/;
+
+	is $string, $expected, 'Dumping {} returns expected string';
+}
+
+# vim: expandtab shiftwidth=4

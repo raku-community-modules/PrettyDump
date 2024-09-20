@@ -1,12 +1,8 @@
-#!/Applications/Rakudo/bin/perl6
-
-#`(
-This is an example of overriding some core handlers to format a data
-structure any way that you like.
-
-It's likely that PrettyDump formatting will change without
-corresponding updates to this example.
-)
+# This is an example of overriding some core handlers to format a data
+# structure any way that you like
+#
+# It's likely that PrettyDump formatting will change without
+# corresponding updates to this example.
 
 my $hash = %(
 	Hamadryas => 'Cracker',
@@ -23,7 +19,6 @@ my $hash = %(
 # Here's the builtin dumper
 dd $hash;
 
-
 #`(
 Now try it with the regular PrettyDump handlers. This is what you get:
 
@@ -38,7 +33,7 @@ Now try it with the regular PrettyDump handlers. This is what you get:
 		}),
 		:Papilio("Swallowtail")
 )
-use lib qw<lib>;
+
 use PrettyDump;
 my $pretty = PrettyDump.new;
 say $pretty.dump: $hash;
@@ -98,3 +93,5 @@ $pretty.add-handler: 'Pair', $pair-code;
 $pretty.add-handler: 'Hash', $hash-code;
 
 say $pretty.dump: $hash;
+
+# vim: expandtab shiftwidth=4

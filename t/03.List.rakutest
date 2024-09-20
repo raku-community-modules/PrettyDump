@@ -1,0 +1,25 @@
+use Test;
+use PrettyDump;
+
+plan 2;
+
+my $p = PrettyDump.new;
+
+subtest 'List in a var' => {
+	my $list = <a b c d>;
+	ok $list ~~ List, 'Data structure is a List';
+
+	my $string = $p.dump: $list;
+	isa-ok $string, Str, 'Got Str back';
+	my $expected = qq/List=(\n\t"a",\n\t"b",\n\t"c",\n\t"d"\n)/;
+	is $string, $expected, 'Dumping $list returns expected string';
+}
+
+subtest 'List in arguments' => {
+	my $string = $p.dump: (2, 3, 4, 5);
+	isa-ok $string, Str, 'Got Str back';
+	my $expected = qq/List=(\n\t2,\n\t3,\n\t4,\n\t5\n)/;
+	is $string, $expected, 'Dumping $array works';
+}
+
+# vim: expandtab shiftwidth=4

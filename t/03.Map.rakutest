@@ -1,0 +1,18 @@
+use Test;
+use PrettyDump;
+
+plan 1;
+
+my $p = PrettyDump.new;
+
+subtest  '$map' => {
+    my $map = Map.new: ( a => 'b', c => 'd' );
+    ok $map ~~ Map, 'Data structure is a Map';
+
+    my $string = $p.dump: $map;
+    isa-ok $string, Str, 'Got Str back';
+    my $expected = qq/Map=(\n\t:a("b"),\n\t:c("d")\n)/;
+    is $string, $expected, 'Dumping $map works';
+}
+
+# vim: expandtab shiftwidth=4

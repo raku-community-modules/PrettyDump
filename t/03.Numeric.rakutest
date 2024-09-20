@@ -1,0 +1,41 @@
+use Test;
+use PrettyDump;
+
+plan 3;
+
+my $p = PrettyDump.new;
+
+subtest 'FatRat' => {
+    my $fat-rat = FatRat.new: 1, 137;
+    ok $fat-rat ~~ FatRat, 'Data structure is a FatRat';
+
+    my $string = $p.dump: $fat-rat;
+    isa-ok $string, Str, 'Got Str back';
+    my $expected = Q{<1/137>};
+
+    is $string, $expected, 'Dumping FatRat returns expected string';
+}
+
+subtest 'Rat' => {
+    my $rat = <1/137>;
+    ok $rat ~~ Rat, 'Data structure is a Rat';
+
+    my $string = $p.dump: $rat;
+    isa-ok $string, Str, 'Got Str back';
+    my $expected = Q{<1/137>};
+
+    is $string, $expected, 'Dumping Rat returns expected string';
+}
+
+subtest 'Rat Decimal' => {
+    my $rat = 1.234;
+    ok $rat ~~ Rat, 'Data structure is a Rat';
+
+    my $string = $p.dump: $rat;
+    isa-ok $string, Str, 'Got Str back';
+    my $expected = Q{<617/500>};
+
+    is $string, $expected, 'Dumping Decimal returns expected string';
+}
+
+# vim: expandtab shiftwidth=4

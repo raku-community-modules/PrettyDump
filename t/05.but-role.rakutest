@@ -1,0 +1,28 @@
+use Test;
+use PrettyDump;
+
+plan 1;
+
+subtest 'With role' => {
+    my $pretty = PrettyDump.new;
+
+    my Int $a = 137;
+
+    {
+        my $str = $pretty.dump: $a;
+        is $str, $a;
+    }
+
+    {
+        my $b = $a but role {
+            method PrettyDump ( PrettyDump $pretty, Int:D :$depth = 0 ) {
+                "({self.^name}) {self}";
+            }
+        }
+
+        my $str = $pretty.dump: $b;
+        like $str, rx/ ^^ '(Int+{' /, 'Role has anon class at start';
+    }
+}
+
+# vim: expandtab shiftwidth=4

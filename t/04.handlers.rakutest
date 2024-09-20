@@ -1,0 +1,51 @@
+use Test;
+use PrettyDump;
+
+plan 4;
+
+subtest "PrettyDump setup" => {
+    can-ok PrettyDump, 'new'            or bail-out "PrettyDump cannot .new";
+    can-ok PrettyDump, 'add-handler'    or bail-out "PrettyDump cannot .add-handler";
+    can-ok PrettyDump, 'remove-handler' or bail-out "PrettyDump cannot .remove-handler";
+    can-ok PrettyDump, 'handles'        or bail-out "PrettyDump cannot .handles";
+    can-ok PrettyDump, 'dump'           or bail-out "PrettyDump cannot .dump";
+}
+
+class TinyClass {
+    has $.foo;
+    method can ( Str $method ) { False }
+}
+my $tiny-class-str = 'TinyClass';
+my $tiny-class = ::($tiny-class-str);
+
+subtest "$tiny-class-str setup" => {
+    is PrettyDump.can( $tiny-class-str ).elems, 0, "PrettyDump does not handle $tiny-class-str";
+
+    can-ok $tiny-class, 'can';
+    is $tiny-class.can( 'Str' ), False, "$tiny-class-str does not do .Str";
+    is $tiny-class.can( 'PrettyDump' ), False, "$tiny-class-str does not do .PrettyDump";
+}
+
+subtest 'Try a handler with a good signature' => {
+    my $p = PrettyDump.new;
+    is $p.handles( $tiny-class-str ), False, "Basic object does not handle $tiny-class-str";
+    my $sub = -> PrettyDump $p, $ds, Int:D :$depth=0 --> Str {
+        'Hello foo ' ~ $ds.foo
+        };
+    $p.add-handler( $tiny-class-str, $sub );
+    is $p.handles( $tiny-class-str ), True, "Now basic object handles $tiny-class-str";
+    my $tiny-obj = $tiny-class.new: :foo(123);
+    is $p.dump( $tiny-obj ), 'Hello foo 123', 'Dump returns the expected string';
+
+    $p.remove-handler: $tiny-class-str;
+    is $p.handles( $tiny-class-str ), False, "Basic object no longer handles $tiny-class-str";
+}
+
+subtest 'Try a handler with a bad signature' => {
+    my $p = PrettyDump.new;
+    is $p.handles( $tiny-class-str ), False, "Basic object does not handle $tiny-class-str";
+    my $sub = -> { 'Hello foo ' };
+    dies-ok { $p.add-handler( $tiny-class-str, $sub ) }, "Bad signature dies";
+}
+
+# vim: expandtab shiftwidth=4

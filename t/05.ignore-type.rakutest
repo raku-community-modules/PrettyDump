@@ -1,0 +1,42 @@
+use Test;
+use PrettyDump;
+
+plan 3;
+
+subtest 'Excluding Hash with handler' => {
+    my $pretty = PrettyDump.new;
+    $pretty.add-handler: 'Hash',
+        -> PrettyDump $pretty, $ds, Int:D :$depth = 0 --> Str { Str:U };
+    isa-ok $pretty, PrettyDump;
+
+    my $ds = { Butterfly => 'Camelia' };
+
+    my $str = $pretty.dump: $ds;
+    is $str, Str:U, 'Hash is excluded';
+}
+
+subtest 'Excluding Hash in Array with handler' => {
+    my $pretty = PrettyDump.new;
+    $pretty.add-handler: 'Hash',
+        -> PrettyDump $pretty, $ds, Int:D :$depth = 0 --> Str { Str:U };
+    isa-ok $pretty, PrettyDump;
+
+    my $ds = [ 'a', 'b', { Butterfly => 'Camelia' }, 'c' ];
+
+    my $str = $pretty.dump: $ds;
+    is $str, qq/Array=[\n\t"a",\n\t"b",\n\t"c"\n]/, 'Hash is excluded';
+}
+
+subtest 'Excluding Hash with ignore-type' => {
+    my $pretty = PrettyDump.new;
+    $pretty.add-handler: 'Hash',
+        -> PrettyDump $pretty, $ds, Int:D :$depth = 0 --> Str { Str:U };
+    isa-ok $pretty, PrettyDump;
+
+    my $ds = [ 'a', 'b', { Butterfly => 'Camelia' }, 'c' ];
+
+    my $str = $pretty.dump: $ds;
+    is $str, qq/Array=[\n\t"a",\n\t"b",\n\t"c"\n]/, 'Hash is excluded';
+}
+
+# vim: expandtab shiftwidth=4

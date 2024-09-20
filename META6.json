@@ -1,22 +1,26 @@
 {
-  "authors" : [
-    "brian d foy"
+  "auth": "zef:raku-community-modules",
+  "authors": [
+    "brian d foy",
+    "Raku Community"
   ],
-  "build-depends" : [ ],
-  "depends" : [ ],
-  "description" : "represent a Raku data structure in a human readable way",
-  "license" : "Artistic-2.0",
-  "name" : "PrettyDump",
-  "perl" : "6.c",
-  "provides" : {
-    "PrettyDump" : "lib/PrettyDump.pm6"
+  "build-depends": [
+  ],
+  "depends": [
+  ],
+  "description": "represent a Raku data structure in a human readable way",
+  "license": "Artistic-2.0",
+  "name": "PrettyDump",
+  "perl": "6.c",
+  "provides": {
+    "PrettyDump": "lib/PrettyDump.rakumod"
   },
-  "resources" : [ ],
-  "source-url" : "https://github.com/briandfoy/raku-PrettyDump.git",
-  "tags" : [ ],
-  "test-depends" : [
-  	"Test",
-  	"Test::META"
-  	],
-  "version" : "1.2.1"
+  "resources": [
+  ],
+  "source-url": "https://github.com/raku-community-modules/PrettyDump.git",
+  "tags": [ "PRINT", "DUMP", "DEBUGGING"
+  ],
+  "test-depends": [
+  ],
+  "version": "1.2.2"
 }

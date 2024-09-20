@@ -1,0 +1,57 @@
+use Test;
+use PrettyDump;
+
+plan 5;
+
+my $p = PrettyDump.new;
+
+subtest  'Pair with arrow notation, in var' => {
+    my $pair = Butterfly => 'Camelia';
+    ok $pair ~~ Pair, 'Data structure is a Pair';
+
+    my $string = $p.dump: $pair;
+    isa-ok $string, Str, 'Got Str back';
+    my $expected = Q/:Butterfly("Camelia")/;
+
+    is $string, $expected, 'Dumping arrow Pair works';
+}
+
+subtest 'Pair with colon notation, in var' => {
+    my $pair = :Butterfly('Camelia');
+    ok $pair ~~ Pair, 'Data structure is a Pair';
+
+    my $string = $p.dump: $pair;
+    isa-ok $string, Str, 'Got Str back';
+    my $expected = Q/:Butterfly("Camelia")/;
+
+    is $string, $expected, 'Dumping colon Pair in var return expected string';
+}
+
+subtest 'Pair with constructor, in var' => {
+    my $pair = Pair.new: 'Butterfly', 'Camelia';
+    ok $pair ~~ Pair, 'Data structure is a Pair';
+
+    my $string = $p.dump: $pair;
+    isa-ok $string, Str, 'Got Str back';
+    my $expected = Q/:Butterfly("Camelia")/;
+
+    is $string, $expected, 'Dumping constructor Pair in var return expected string';
+}
+
+subtest 'Pair with arrow notation, in arguments' => {
+    my $string = $p.dump: ('Butterfly' => 'Camelia');
+    isa-ok $string, Str, 'Got Str back';
+    my $expected = Q/:Butterfly("Camelia")/;
+
+    is $string, $expected, 'Dumping arrow Pair in arguments return expected string';
+}
+
+subtest 'Pair with colon notation, in arguments' => {
+    my $string = $p.dump: (:Butterfly('Camelia'));
+    isa-ok $string, Str, 'Got Str back';
+    my $expected = Q/:Butterfly("Camelia")/;
+
+    is $string, $expected, 'Dumping colon Pair in arguments return expected string';
+}
+
+# vim: expandtab shiftwidth=4
