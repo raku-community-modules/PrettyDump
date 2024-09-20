@@ -18,7 +18,10 @@
   "resources": [
   ],
   "source-url": "https://github.com/raku-community-modules/PrettyDump.git",
-  "tags": [ "PRINT", "DUMP", "DEBUGGING"
+  "tags": [
+    "PRINT",
+    "DUMP",
+    "DEBUGGING"
   ],
   "test-depends": [
   ],
