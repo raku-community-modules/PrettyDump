@@ -260,6 +260,7 @@ my sub pretty-dump($ds,
 
 my sub pd(|c) is export {
     pretty-dump(|c).put;
+    c.list[0]
 }
 
 # vim: expandtab shiftwidth=4
