@@ -2,5 +2,9 @@ Revision history for PrettyDump
 
 {{$NEXT}}
 
+1.2.3  2024-12-03T09:51:00+01:00
+    - Fix `pd` to print the dump as it should.
+    - Make `pd` return the passed data allowing it to be used in pipelines.
+
 1.2.2  2024-09-20T15:32:19+02:00
     - Initial version as a Raku Community Module
